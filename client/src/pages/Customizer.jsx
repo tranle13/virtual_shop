@@ -1,12 +1,48 @@
 import { AnimatePresence, motion } from "framer-motion";
+import { useState } from "react";
 import { useSnapshot } from "valtio";
-import { CustomButton, Tab } from "../components";
+import {
+  AIPicker,
+  ColorPicker,
+  CustomButton,
+  FilePicker,
+  Tab,
+} from "../components";
 import { EditorTabs, FilterTabs } from "../config/constants";
 import { fadeAnimation, slideAnimation } from "../config/motion";
 import state from "../store";
 
 const Customizer = () => {
   const snap = useSnapshot(state);
+
+  // Set the active tab
+  const [file, setFile] = useState("");
+
+  const [prompt, setPrompt] = useState("");
+  const [generatingImg, setGeneratingImg] = useState(false);
+
+  const [activeEditorTab, setActiveEditorTab] = useState("");
+  const [activeFilterTab, setActiveFilterTab] = useState({
+    logoShirt: true,
+    stylishShirt: false,
+  });
+
+  // Show tab content depending on the active tab
+  const generateTabContent = () => {
+    switch (activeEditorTab) {
+      case "colorpicker":
+        return <ColorPicker />;
+      case "filepicker":
+        return <FilePicker file={file} setFile={setFile} />;
+      case "aipicker":
+        return <AIPicker />;
+      default:
+        return null;
+    }
+  };
+
+  const readFile = (type) => {};
+
   return (
     <AnimatePresence>
       {!snap.intro && (
@@ -19,8 +55,13 @@ const Customizer = () => {
             <div className="flex items-center min-h-screen">
               <div className="editortabs-container tabs">
                 {EditorTabs.map((tab) => (
-                  <Tab key={tab.name} tab={tab} handleClick={() => {}} />
+                  <Tab
+                    key={tab.name}
+                    tab={tab}
+                    handleClick={() => setActiveEditorTab(tab.name)}
+                  />
                 ))}
+                {generateTabContent()}
               </div>
             </div>
           </motion.div>
