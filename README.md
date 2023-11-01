@@ -1,3 +1,7 @@
+# Preview
+
+![preview.gif](./client/public/preview.gif)
+
 # Dependencies
 
 - three.js: 3D js library
