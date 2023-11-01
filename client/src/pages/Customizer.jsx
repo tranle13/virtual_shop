@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { useSnapshot } from "valtio";
+
 import {
   AIPicker,
   ColorPicker,
@@ -8,7 +9,8 @@ import {
   FilePicker,
   Tab,
 } from "../components";
-import { EditorTabs, FilterTabs } from "../config/constants";
+import { DecalTypes, EditorTabs, FilterTabs } from "../config/constants";
+import { reader } from "../config/helpers";
 import { fadeAnimation, slideAnimation } from "../config/motion";
 import state from "../store";
 
@@ -33,7 +35,7 @@ const Customizer = () => {
       case "colorpicker":
         return <ColorPicker />;
       case "filepicker":
-        return <FilePicker file={file} setFile={setFile} />;
+        return <FilePicker file={file} setFile={setFile} readFile={readFile} />;
       case "aipicker":
         return <AIPicker />;
       default:
@@ -41,7 +43,35 @@ const Customizer = () => {
     }
   };
 
-  const readFile = (type) => {};
+  const handleDecals = (type, result) => {
+    const decalType = DecalTypes[type];
+    state[decalType.stateProperty] = result;
+
+    if (!activeFilterTab[decalType.filterTab]) {
+      handleActiveFilterTab(decalType.filterTab);
+    }
+  };
+
+  const handleActiveFilterTab = (tabName) => {
+    switch (tabName) {
+      case "logoShirt":
+        state.isLogoTexture = !activeFilterTab[tabName];
+        break;
+      case "stylishShirt":
+        state.isFullTexture = !activeFilterTab[tabName];
+        break;
+      default:
+        state.isFullTexture = true;
+        state.isLogoTexture = false;
+    }
+  };
+
+  const readFile = (type) => {
+    reader((result) => {
+      handleDecals(type, result);
+      setActiveEditorTab("");
+    });
+  };
 
   return (
     <AnimatePresence>
