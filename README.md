@@ -8,6 +8,11 @@
 - react-color: color picker
 - framer-motion: have cool animations
 
+# Usage
+
+- This project utilizes image generation with OpenAI. In order for it to work, you need to create an `.env` file with api key of your own from [OpenAI](https://platform.openai.com/account/api-keys).
+- **Warning**: you need to pay to get credits from OpenAI if you want the AI generation to work properly. If you don't want to, file upload is working just fine.
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
