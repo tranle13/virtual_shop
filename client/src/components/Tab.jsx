@@ -1,7 +1,7 @@
 import { useSnapshot } from "valtio";
 import state from "../store";
 
-const Tab = ({ tab, isFilterTab, isActiveTab, handleClick }) => {
+const Tab = ({ tab, isFilterTab, isActiveTab, handleClick, ariaLabel }) => {
   const snap = useSnapshot(state);
 
   const activeStyles =
@@ -10,13 +10,15 @@ const Tab = ({ tab, isFilterTab, isActiveTab, handleClick }) => {
       : { backgroundColor: "transparent", opacity: 1 };
 
   return (
-    <div
+    <button
       key={tab.name}
       className={`tab-btn ${
         isFilterTab ? "rounded-full glassmorphism" : "rounded-4"
       }`}
       onClick={handleClick}
       style={activeStyles}
+      aria-label={ariaLabel}
+      title={ariaLabel}
     >
       <img
         src={tab.icon}
@@ -25,7 +27,7 @@ const Tab = ({ tab, isFilterTab, isActiveTab, handleClick }) => {
           isFilterTab ? "w-2/3 h-2.3" : "w-11/12 h-11/12 object-contain"
         }`}
       />
-    </div>
+    </button>
   );
 };
 

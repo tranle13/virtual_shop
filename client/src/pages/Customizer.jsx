@@ -130,6 +130,7 @@ const Customizer = () => {
                   <Tab
                     key={tab.name}
                     tab={tab}
+                    ariaLabel={tab.label}
                     handleClick={() => setActiveEditorTab(tab.name)}
                   />
                 ))}
@@ -159,6 +160,7 @@ const Customizer = () => {
               <Tab
                 key={tab.name}
                 tab={tab}
+                ariaLabel={tab.label}
                 isFilterTab
                 isActiveTab={activeFilterTab[tab.name]}
                 handleClick={() => handleActiveFilterTab(tab.name)}
